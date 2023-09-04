@@ -62,7 +62,7 @@ function Category() {
             <h4 className="text-tertiary d-flex justify-content-between fw-semibold">Categories</h4>
             <div style={{display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr 1fr",gridTemplateRows:"auto", gridGap:"10px"}}>
               <div className='d-flex justify-content-around bg-danger p-2 rounded text-primary'>
-                  <img alt="image1" src='https://thenounproject.com/api/private/icons/3407707/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0' style={style}></img>
+                  <img alt="image1" src='https://img.icons8.com/?size=512&id=37783&format=png' style={style}></img>
                   <div>
                       <div>Food</div>
                       {data.map((dataObj, index) => {
@@ -73,7 +73,7 @@ function Category() {
                   </div>
               </div>
               <div className='d-flex justify-content-around bg-success p-2 rounded text-primary'>
-                  <img alt="image2" src='https://thenounproject.com/api/private/icons/1994820/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0' style={style}></img>
+                  <img alt="image2" src='https://img.icons8.com/?size=512&id=37784&format=png' style={style}></img>
                   <div>
                       <div>Salary</div>
                       {data2.map((dataObj, index) => {
@@ -84,7 +84,7 @@ function Category() {
                   </div>
               </div>
               <div className='d-flex justify-content-around bg-danger p-2 rounded text-primary'>
-                  <img alt="image3" src='https://thenounproject.com/api/private/icons/1709576/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0' style={style}></img>
+                  <img alt="image3" src='https://img.icons8.com/?size=512&id=37783&format=png' style={style}></img>
                   <div>
                       <div>Shopping</div>
                       {data3.map((dataObj, index) => {
@@ -95,7 +95,7 @@ function Category() {
                   </div>
               </div>
               <div className='d-flex justify-content-around bg-danger p-2 rounded text-primary'>
-                  <img alt="image4" src='https://thenounproject.com/api/private/icons/1090620/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0' style={style}></img>
+                  <img alt="image4" src='https://img.icons8.com/?size=512&id=37783&format=png' style={style}></img>
                   <div>
                       <div>Bills</div>
                       {data4.map((dataObj, index) => {
@@ -106,7 +106,7 @@ function Category() {
                   </div>
               </div>
               <div className='d-flex justify-content-around bg-danger p-2 rounded text-primary'>
-                  <img alt="image5" src='https://thenounproject.com/api/private/icons/1366422/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0' style={style}></img>
+                  <img alt="image5" src='https://img.icons8.com/?size=512&id=37783&format=png' style={style}></img>
                   <div>
                       <div>Transport</div>
                       {data5.map((dataObj, index) => {
@@ -117,7 +117,7 @@ function Category() {
                   </div>
               </div>
               <div className='d-flex justify-content-around bg-danger p-2 rounded text-primary'>
-                  <img alt="image6" src='https://thenounproject.com/api/private/icons/5982940/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0' style={style}></img>
+                  <img alt="image6" src="https://img.icons8.com/?size=512&id=37783&format=png" style={style}></img>
                     <div>
                       <div>Gym</div>
                       {data6.map((dataObj, index) => {

@@ -5,26 +5,20 @@ function Wallets() {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/walletsChart')
+    fetch('http://localhost:4000/api/date')
       .then(response => response.json())
       .then(data => {
-        // Assuming the data is an array of objects with "_api", "cash", and "bank" properties
-        const dates = data.map(item => item.date);
-        const cash = data.map(item => item.cash);
-        const bank = data.map(item => item.bank);
+        // Assuming the data is an array of objects with "date" and "total" properties
+        const dates = data.map(item => item._id);
+        const totals = data.map(item => item.total);
 
         setChartData({
           labels: dates,
           datasets: [
             {
-              label: 'Cash',
-              fill: true,
-              data: cash,
-            },
-            {
-              label: 'Bank',
-              fill: true,
-              data: bank,
+              data: totals,
+              backgroundColor: '#352F44',
+              borderRadius:'5'
             }
           ]
         });
@@ -33,6 +27,14 @@ function Wallets() {
 
   const options = {
     responsive: true,
+    plugins:{
+      legend: {
+        display: false
+      },
+      title:{
+        display:"false"
+      }
+    },
     scales: {
       x: {
         grid: {
@@ -45,23 +47,6 @@ function Wallets() {
         }
       }
     },
-    plugins: {
-      filler: {
-        propagate: false,
-      },
-      title: {
-        display: true,
-        text: "Wallets"
-      }
-    },
-    interaction: {
-      intersect: false,
-    },
-    elements:{
-      line:{
-          tension:0.4
-      }
-    }
   };
 
   return (

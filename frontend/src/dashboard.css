@@ -1,5 +1,6 @@
 .trans img{
-    width: 50px;
+    width: 55px;
+    height: auto;
     aspect-ratio: 1;
 }
 .wallet-grid{

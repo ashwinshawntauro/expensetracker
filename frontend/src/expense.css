@@ -4,3 +4,21 @@
     grid-template-rows: auto;
     grid-gap: 20px;
 }
+.icon-bg{
+    background-color: white;
+}
+input.form-control:focus ,select.form-select:focus{
+    /* color: #dc3545; */
+    color:#352F44 !important;
+    font-family: 'Fredoka';
+    border: 1px solid #352F44 !important;
+    box-shadow: 0 0 3px #352F44 !important;
+}
+.form-check-input:checked{
+    background-color: #352F44;
+    border: 1px solid #352F44 !important;
+    box-shadow: 0 0 3px #352F44 !important;
+}
+#modal{
+    font-family: 'Fredoka';
+}
