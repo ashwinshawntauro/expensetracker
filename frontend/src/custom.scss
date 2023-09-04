@@ -1,0 +1,21 @@
+// required to get $orange variable
+@import "../node_modules/bootstrap/scss/functions"; 
+@import "../node_modules/bootstrap/scss/variables";
+
+$primary: #FAF0E6;
+$primary-light: #ebeaea;
+$secondary: #B9B4C7;
+$tertiary: #5C5470;
+$backdrop: #352F44;
+
+// merge with existing $theme-colors map
+$theme-colors: map-merge($theme-colors, (
+  "primary": $primary,
+  "primaryl": $primary-light,
+  "secondary": $secondary,
+  "tertiary": $tertiary,
+  "backdrop": $backdrop
+));
+
+// set changes
+@import "../node_modules/bootstrap/scss/bootstrap";

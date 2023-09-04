@@ -1,0 +1,28 @@
+html {
+    --scrollbarBG: #FAF0E6;
+    --thumbBG: #352F44;
+}
+::-webkit-scrollbar {
+width: 11px;
+}
+body {
+scrollbar-width: thin;
+scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+::-webkit-scrollbar-track {
+background: var(--scrollbarBG);
+}
+::-webkit-scrollbar-thumb {
+background-color: var(--thumbBG) ;
+border-radius: 6px;
+border: 3px solid var(--scrollbarBG);
+}
+
+.badge{
+    cursor: pointer;
+}
+.sidebar{
+    position: fixed;
+    z-index: 1;
+    right: 0px;
+}

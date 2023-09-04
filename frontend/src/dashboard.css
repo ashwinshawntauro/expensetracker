@@ -1,0 +1,25 @@
+.trans img{
+    width: 50px;
+    aspect-ratio: 1;
+}
+.wallet-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-gap: 5px;
+}
+.main, .sidebar
+{
+    font-family: 'Fredoka', sans-serif;
+}
+.header-title
+{
+    font-family: 'Rubik Wet Paint', cursive;
+}
+.boxes{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+    grid-gap: 10px;
+    text-align: center;
+}
