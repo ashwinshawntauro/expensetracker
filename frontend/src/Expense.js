@@ -83,10 +83,6 @@ function Expense() {
                 <Form.Control name="date" placeholder='2023-05-03'/>
               </InputGroup>
               <br></br>
-              <Form.Label className='text-backdrop'>Choose Wallet</Form.Label>
-              <Form.Check className='mx-2' inline type="radio" name="wallet" label="Cash" value="cash" />
-              <Form.Check className='mx-2' inline type="radio" name='wallet' label="Bank" value="bank"/>
-              <br></br>
               <Form.Label className='text-backdrop'>Choose Category</Form.Label>
               <Form.Select name="category">
                 <option value="Salary" selected>Salary</option>

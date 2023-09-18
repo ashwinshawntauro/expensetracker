@@ -10,7 +10,7 @@ function Wallets() {
       .then(data => {
         // Assuming the data is an array of objects with "date" and "total" properties
         const dates = data.map(item => item._id);
-        const totals = data.map(item => item.total);
+        const totals = data.map(item => item.total); 
 
         setChartData({
           labels: dates,
@@ -18,7 +18,8 @@ function Wallets() {
             {
               data: totals,
               backgroundColor: '#352F44',
-              borderRadius:'5'
+              borderColor: '#352F44',
+              borderRadius:'5',
             }
           ]
         });
@@ -33,6 +34,11 @@ function Wallets() {
       },
       title:{
         display:"false"
+      }
+    },
+    elements:{
+      line:{
+        tension:0.4
       }
     },
     scales: {
