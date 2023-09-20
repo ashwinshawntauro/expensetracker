@@ -49,10 +49,11 @@ function Expense() {
     axios.post("http://localhost:4000/api/post", {type,value,date,category})
     .then(
       document.getElementById('form-status-sucess').classList.remove("d-none"),
-      useReload()
     )
     .catch(err=>console.log(err))
-    //
+    .finally(
+      useReload()
+    )
     document.getElementById('form').classList.add("d-none");
     // console.log({type,value,date,category})
   }
@@ -130,7 +131,7 @@ function Expense() {
               <Form.Label className='text-backdrop'>Choose Category</Form.Label>
               <Form.Select name="category" onChange={(e)=>setCategory(e.target.value)}>
                 <option value="Salary">Salary</option>
-                <option value="Food" selected>Food</option>
+                <option value="Food">Food</option>
                 <option value="Shopping">Shopping</option>
                 <option value='Bills'>Bills</option>
                 <option value='Transport'>Transport</option>
