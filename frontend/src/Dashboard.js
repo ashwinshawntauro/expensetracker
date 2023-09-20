@@ -56,20 +56,20 @@ function Dashboard() {
                             <div>Income:
                                 {data.map((dataObj, index) => {
                                     return (
-                                        <span className="text-success">{dataObj.total}</span>
+                                        <span className="text-success">{dataObj.total.toFixed(2)}</span>
                                 )})}
                             </div>
                             <div>Expense:
                             {data4.map((dataObj, index) => {
                                     return (
-                                <span className="text-danger">{dataObj.total}</span>
+                                <span className="text-danger">{dataObj.total.toFixed(2)}</span>
                                     )})}
                             </div>
                         </div>
                         <div className="col">
                             <div className="fw-semibold">Compare</div>
-                            <div>Avg Income:<span className="text-success">{data2.map((dataObj, index) => {return (dataObj.total)})}</span></div>
-                            <div>Avg Expense:<span className="text-danger" style={{width:"5px"}}>{data3.map((dataObj, index) => {return (dataObj.total)})}</span></div>
+                            <div>Avg Income:<span className="text-success">{data2.map((dataObj, index) => {return (dataObj.total.toFixed(2))})}</span></div>
+                            <div>Avg Expense:<span className="text-danger" style={{width:"5px"}}>{data3.map((dataObj, index) => {return (dataObj.total.toFixed(2))})}</span></div>
                         </div>
                     </div>
                 </div>

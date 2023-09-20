@@ -83,18 +83,18 @@ function App() {
                             </div>
                         </div>
 
-                        <h5 className="d-flex justify-content-between fw-bold">Recent Transactions <i class="bi bi-three-dots"></i></h5>
+                        <h5 className="d-flex justify-content-between fw-bold">Transactions</h5>
                         <div style={{height:"480px",overflowY:"auto",paddingRight:"20px"}}>
                         {data.map((dataObj, index) => {
                         return (
                             <div className="d-flex flex-column my-3 text-center" key={index}>
                                 <div className="d-flex flex-row justify-content-between trans py-2">
-                                    <img className="border border-2 rounded bg-white" src={`${dataObj.type==1?"https://img.icons8.com/?size=512&id=37784&format=png":"https://img.icons8.com/?size=512&id=37783&format=png"}`}></img>
+                                    <img className="border border-2 rounded bg-white" src={`${dataObj.type=="income"?"https://img.icons8.com/?size=512&id=37784&format=png":"https://img.icons8.com/?size=512&id=37783&format=png"}`}></img>
                                     <div>
                                         <div className="fw-semibold">{dataObj.category}</div>
                                         <small>{dataObj.date}</small>
                                     </div>
-                                    <div className={`fw-semibold ${dataObj.type==1 ? "text-success" :"text-danger"}`}>{dataObj.value}</div>
+                                    <div className={`fw-semibold ${dataObj.type=="income" ? "text-success" :"text-danger"}`}>{dataObj.value}</div>
                                 </div>
 
                             </div>

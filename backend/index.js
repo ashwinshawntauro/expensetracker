@@ -147,12 +147,7 @@ app.get('/api/expense',(request,response)=>{
     })
 })
 app.post('/api/post', urlencodedParser, (req, response) => {
-    Transaction.create({
-        category: req.body.category,
-        value: req.body.value,
-        date: req.body.date,
-        type: req.body.type,
-    }, (error, result) => {
+    Transaction.create(req.body, (error, result) => {
         if (error) {
             response.status(500).send(error);
         } else {
@@ -160,6 +155,11 @@ app.post('/api/post', urlencodedParser, (req, response) => {
         }
     });
 });
+// app.post('/api/post', urlencodedParser, (req, response) => {
+//     Transaction.create(req.body)
+//     .then(transact=>res.json(transact))
+//     .catch(err=>res.json(err))
+// });
 // app.post("/api/post", async (req, resp) => {
 //     try {
 //         const user = new Transaction(req.body);
