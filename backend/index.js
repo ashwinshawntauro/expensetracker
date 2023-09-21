@@ -8,13 +8,20 @@ mongoose.connect('mongodb://0.0.0.0:27017/mydb', { useNewUrlParser: true, useUni
 });
 
 const TransactionSchema = new mongoose.Schema({
-  type: String,
-  value: Number,
-  date: String,
-  category: String
+    type: String,
+    value: Number,
+    date: String,
+    category: String,
+    note: { type: String, required: false }
+});
+  
+const CatSchema = new mongoose.Schema({
+    category: String,
+    logo: String
 });
 
 const Transaction = mongoose.model('transactions', TransactionSchema);
+const Categories = mongoose.model('categories', CatSchema);
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -44,63 +51,36 @@ app.get('/api/sample',(request,response)=>{
         response.send(result);
     })
 })
+app.get('/api/category', (request, response) => {
+    Categories.find({})
+    .then(categories => {
+        // Create an array of promises that resolve to the total for each category
+        const totalsPromises = categories.map(category => {
+            return Transaction.aggregate([
+                {$group: {_id:"$category", total:{$sum:"$value"}}},
+                {$match: {"_id": category.category}}
+            ]).then(result => result.length > 0 ? result[0].total : 0);
+        });
 
-app.get('/api/category/food',(request,response)=>{
-    Transaction.aggregate([
-        {$group: {_id:"$category", total:{$sum:"$value"}}},
-        {$match: {"_id": "Food"}}
-      ]).exec((error,result)=>{
-        response.send(result);
-    })      
-})
-app.get('/api/category/Salary',(request,response)=>{
-    Transaction.aggregate([
-        {$group: {_id:"$category", total:{$sum:"$value"}}},
-        {$match: {"_id": "Salary"}}
-      ]).exec((error,result)=>{
-        response.send(result);
-    })      
-})
-app.get('/api/category/Shopping',(request,response)=>{
-    Transaction.aggregate([
-        {$group: {_id:"$category", total:{$sum:"$value"}}},
-        {$match: {"_id": "Shopping"}}
-      ]).exec((error,result)=>{
-        response.send(result);
-    })      
-})
-app.get('/api/category/Bills',(request,response)=>{
-    Transaction.aggregate([
-        {$group: {_id:"$category", total:{$sum:"$value"}}},
-        {$match: {"_id": "Bills"}}
-      ]).exec((error,result)=>{
-        response.send(result);
-    })      
-})
-app.get('/api/category/Transport',(request,response)=>{
-    Transaction.aggregate([
-        {$group: {_id:"$category", total:{$sum:"$value"}}},
-        {$match: {"_id": "Transport"}}
-      ]).exec((error,result)=>{
-        response.send(result);
-    })      
-})
-app.get('/api/category/Gym',(request,response)=>{
-    Transaction.aggregate([
-        {$group: {_id:"$category", total:{$sum:"$value"}}},
-        {$match: {"_id": "Gym"}}
-      ]).exec((error,result)=>{
-        response.send(result);
-    })      
-})
-app.get('/api/category/salary',(request,response)=>{
-    Transaction.aggregate([
-        {$group: {_id:"$category", total:{$sum:"$value"}}},
-        {$match: {"_id": "Salary"}}
-      ]).exec((error,result)=>{
-        response.send(result);
-    })      
-})
+        // Wait for all promises to resolve
+        Promise.all(totalsPromises)
+        .then(totals => {
+            // Add the total to each category and send the response
+            const categoriesWithTotals = categories.map((category, index) => ({...category.toObject(), total: totals[index]}));
+            response.json(categoriesWithTotals);
+        });
+    })
+    .catch(err => console.log(err));
+});
+// app.get('/api/category/:categoryName', (request, response) => {
+//     const categoryName = request.params.categoryName;
+//     Transaction.aggregate([
+//         {$group: {_id:"$category", total:{$sum:"$value"}}},
+//         {$match: {"_id": categoryName}}
+//     ]).exec((error,result) => {
+//         response.send(result);
+//     })      
+// }) 
 app.get('/api/avgincome',(request,response)=>{
     Transaction.aggregate([{$match: {value: { $gt: 0 }}},{$group: {_id:"$id",total:{$avg:"$value"}}}]).exec((error,result)=>{
         response.send(result);
@@ -122,20 +102,12 @@ app.get('/api/avgexpense',(request,response)=>{
         response.send(result);
     })
 })
-
-app.get('/api/category',(request,response)=>{
-    Transaction.aggregate([{$group: {_id:"$category", total:{$sum:"$value"}}}]).exec((error,result)=>{
-        response.send(result);
-    })
-})
-
 app.get('/api/date',(request,response)=>{
     var mysort = { _id: 1 };
     Transaction.aggregate([{$group: {_id:"$date",total:{$sum:"$value"}}}]).sort(mysort).exec((error,result)=>{
         response.send(result);
     })
 })
-
 app.get('/api/income',(request,response)=>{
     Transaction.aggregate([{$match: {value: { $gt: 0 }}},{$group: {_id:"$category",total:{$sum:"$value"}}}]).exec((error,result)=>{
         response.send(result);
@@ -155,25 +127,32 @@ app.post('/api/post', urlencodedParser, (req, response) => {
         }
     });
 });
-// app.post('/api/post', urlencodedParser, (req, response) => {
-//     Transaction.create(req.body)
-//     .then(transact=>res.json(transact))
-//     .catch(err=>res.json(err))
-// });
-// app.post("/api/post", async (req, resp) => {
-//     try {
-//         const user = new Transaction(req.body);
-//         let result = await user.save();
-//         result = result.toObject();
-//         if (result) {
-//             delete result.password;
-//             resp.send(req.body);
-//             console.log(result);
-//         } else {
-//             console.log("User already register");
-//         }
- 
-//     } catch (e) {
-//         resp.send("Something Went Wrong");
-//     }
-// });
+app.post('/api/newcategory', urlencodedParser, (req, response) => {
+    Categories.create(req.body, (error, result) => {
+        if (error) {
+            response.status(500).send(error);
+        } else {
+            response.status(200).send('Added Successfully \n' + req.body.category)
+        }
+    });
+});
+app.delete('/api/remove/:id', (req, res) => {
+    const { id } = req.params;
+    // Find the transaction with the given id
+    Transaction.findById(id, (error, transaction) => {
+        if (error) {
+        res.status(500).send({ message: 'Server error.' });
+        } else if (!transaction) {
+        res.status(404).send({ message: 'Transaction not found.' });
+        } else {
+        // Delete the transaction
+        transaction.remove(error => {
+            if (error) {
+            res.status(500).send({ message: 'Server error.' });
+            } else {
+            res.status(200).send({ message: 'Transaction deleted successfully.' });
+            }
+        });
+        }
+    });
+});

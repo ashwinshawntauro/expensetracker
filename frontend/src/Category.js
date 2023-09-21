@@ -1,57 +1,43 @@
 import React,{ useEffect ,useState} from 'react'
+import { Fab} from '@mui/material'
+import './expense.css'
+import { Form,Button,Modal,InputGroup} from 'react-bootstrap'
+import axios from 'axios'
 
 function Category() {
-  const url = "http://localhost:4000/api/category/food";
-  const url2 = "http://localhost:4000/api/category/salary";
-  const url3 = "http://localhost:4000/api/category/shopping";
-  const url4 = "http://localhost:4000/api/category/bills";
-  const url5 = "http://localhost:4000/api/category/transport";
-  const url6 = "http://localhost:4000/api/category/gym";
+  const [cat, GetCat] = useState([]);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [show, setShow] = useState(false);
+  const [category,setName] =  useState([]);
+  const [logo,setLogo] = useState([]);
 
-    const [data, setData] = useState([]);
-    const [data2, setData2] = useState([]);
-    const [data3, setData3] = useState([]);
-    const [data4, setData4] = useState([]);
-    const [data5, setData5] = useState([]);
-    const [data6, setData6] = useState([]);
+  function useReload(){
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  }
 
-    const fetchInfo = () => {
-        return fetch(url)
-        .then((res) => res.json())
-        .then((d) => setData(d))
-    }
-    const fetchInfo2 = () => {
-      return fetch(url2)
-      .then((res) => res.json())
-      .then((d) => setData2(d))
+  const Submit = (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:4000/api/newcategory", {category,logo})
+    .then(
+      document.getElementById('form-status-sucess').classList.remove("d-none"),
+    )
+    .catch(err=>console.log(err))
+    .finally(
+      useReload()
+    )
+    document.getElementById('form').classList.add("d-none");
   }
-  const fetchInfo3 = () => {
-    return fetch(url3)
-    .then((res) => res.json())
-    .then((d) => setData3(d))
-  }
-  const fetchInfo4 = () => {
-    return fetch(url4)
-    .then((res) => res.json())
-    .then((d) => setData4(d))
-  }
-  const fetchInfo5 = () => {
-    return fetch(url5)
-    .then((res) => res.json())
-    .then((d) => setData5(d))
-  }
-  const fetchInfo6 = () => {
-    return fetch(url6)
-    .then((res) => res.json())
-    .then((d) => setData6(d))
+
+  const fetchCat= () =>{
+    return fetch("http://localhost:4000/api/category")
+    .then((res)=> res.json())
+    .then((d)=> GetCat(d))
   }
     useEffect(() => {
-        fetchInfo();
-        fetchInfo2();
-        fetchInfo3();
-        fetchInfo4();
-        fetchInfo5();
-        fetchInfo6();
+      fetchCat();
     }, []);
   const style={
     width:"50px",background:"white",borderRadius:"10px"
@@ -59,77 +45,44 @@ function Category() {
   return (
     <div>
         <div className="m-3 h-100">
-            <h4 className="text-tertiary d-flex justify-content-between fw-semibold">Categories</h4>
+            <h4 className="text-tertiary d-flex justify-content-between fw-semibold">Categories <Fab className='bg-backdrop text-primary d-flex' aria-label="add" size="small" title="Add Transaction">
+          <i className="bi bi-plus-circle fs-4 m-auto" onClick={handleShow}></i>
+        </Fab></h4>
             <div style={{display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr 1fr",gridTemplateRows:"auto", gridGap:"10px"}}>
-              <div className='d-flex justify-content-around bg-danger p-2 rounded text-primary'>
-                  <img alt="image1" src='https://img.icons8.com/?size=512&id=37783&format=png' style={style}></img>
-                  <div>
-                      <div>Food</div>
-                      {data.map((dataObj, index) => {
-                        return (
-                            <div>{dataObj.total}</div>
-                        )
-                      })}
+            {cat.map((catObj, index) => {
+              return (
+              <div className='d-flex justify-content-around bg-backdrop p-2 rounded text-primary'>
+                  <img alt="image1" src={catObj.logo} style={style}></img>
+                  <div className='text-center'>
+                      <div>{catObj.category}</div>
+                      <div>{catObj.total}</div>
                   </div>
-              </div>
-              <div className='d-flex justify-content-around bg-success p-2 rounded text-primary'>
-                  <img alt="image2" src='https://img.icons8.com/?size=512&id=37784&format=png' style={style}></img>
-                  <div>
-                      <div>Salary</div>
-                      {data2.map((dataObj, index) => {
-                        return (
-                            <div>{dataObj.total}</div>
-                        )
-                      })}
-                  </div>
-              </div>
-              <div className='d-flex justify-content-around bg-danger p-2 rounded text-primary'>
-                  <img alt="image3" src='https://img.icons8.com/?size=512&id=37783&format=png' style={style}></img>
-                  <div>
-                      <div>Shopping</div>
-                      {data3.map((dataObj, index) => {
-                        return (
-                            <div>{dataObj.total}</div>
-                        )
-                      })}
-                  </div>
-              </div>
-              <div className='d-flex justify-content-around bg-danger p-2 rounded text-primary'>
-                  <img alt="image4" src='https://img.icons8.com/?size=512&id=37783&format=png' style={style}></img>
-                  <div>
-                      <div>Bills</div>
-                      {data4.map((dataObj, index) => {
-                        return (
-                            <div>{dataObj.total}</div>
-                        )
-                      })}
-                  </div>
-              </div>
-              <div className='d-flex justify-content-around bg-danger p-2 rounded text-primary'>
-                  <img alt="image5" src='https://img.icons8.com/?size=512&id=37783&format=png' style={style}></img>
-                  <div>
-                      <div>Transport</div>
-                      {data5.map((dataObj, index) => {
-                        return (
-                            <div>{dataObj.total}</div>
-                        )
-                      })}
-                  </div>
-              </div>
-              <div className='d-flex justify-content-around bg-danger p-2 rounded text-primary'>
-                  <img alt="image6" src="https://img.icons8.com/?size=512&id=37783&format=png" style={style}></img>
-                    <div>
-                      <div>Gym</div>
-                      {data6.map((dataObj, index) => {
-                        return (
-                            <div>{dataObj.total}</div>
-                        )
-                      })}
-                    </div>
-              </div>
+              </div> 
+              )})}
             </div>
         </div>
-
+        <Modal id="modal" centered show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title className='text-backdrop'>New Category</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div id='form-status-sucess' className='d-none'>
+              <div className='d-flex flex-row justify-content-center'>
+              <i className="bi bi-check-circle-fill px-2"></i>New Category Added!
+              </div>
+            </div>
+            <Form onSubmit={Submit} id='form'>
+              <Form.Label className='text-backdrop'>Category Name</Form.Label>
+              <Form.Control name="name" placeholder='Food' onChange={(e)=>setName(e.target.value)}/>
+              <br></br>
+              <Form.Label className='text-backdrop'>Image Link</Form.Label>
+              <Form.Control name="logo" placeholder='https://google.com/favicon.ico' onChange={(e)=>setLogo(e.target.value)}/>
+              <Button className='bg-backdrop text-primary mt-4 mx-auto w-100' type='submit'>
+                Submit
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
     </div>
   )
 }

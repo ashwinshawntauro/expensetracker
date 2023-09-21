@@ -52,9 +52,9 @@ function App() {
                 <div className="m-3">
                     <div className="fs-2 header-title text-backdrop">Expense Tracker</div>
                     <div className="m-3 d-flex flex-row justify-content-around">
-                        <div onClick={dashClick} className={`${path !== "/" ? "bg-secondary text-backdrop" : "bg-backdrop text-primary"} badge text-primary fs-5 my-auto mx-2 w-25 rounded`}><i className="bi bi-clipboard-data-fill px-2"></i>Dashboard</div>
-                        <div onClick={catClick} className={`${path !== "/categories" ? "bg-secondary text-backdrop" : "bg-backdrop text-primary"} badge text-primary fs-5 my-auto mx-2 w-25 rounded`}><i className="bi bi-tag-fill px-2"></i>Categories</div>
-                        <div onClick={expClick} className={`${path !== "/expense" ? "bg-secondary text-backdrop" : "bg-backdrop text-primary"} badge text-primary fs-5 my-auto mx-2 w-25 rounded`}><i class="bi bi-currency-exchange px-2"></i>Transactions</div>
+                        <div onClick={dashClick} className={`${path !== "/" ? "bg-secondary text-backdrop" : "bg-backdrop shadow text-primary"} badge text-primary fs-5 my-auto mx-2 w-25 rounded`}><i className="bi bi-clipboard-data-fill px-2"></i>Dashboard</div>
+                        <div onClick={catClick} className={`${path !== "/categories" ? "bg-secondary text-backdrop" : "bg-backdrop shadow text-primary"} badge text-primary fs-5 my-auto mx-2 w-25 rounded`}><i className="bi bi-tag-fill px-2"></i>Categories</div>
+                        <div onClick={expClick} className={`${path !== "/expense" ? "bg-secondary text-backdrop" : "bg-backdrop shadow text-primary"} badge text-primary fs-5 my-auto mx-2 w-25 rounded`}><i class="bi bi-currency-exchange px-2"></i>Transactions</div>
                     </div>
                     <hr></hr>
                 </div>

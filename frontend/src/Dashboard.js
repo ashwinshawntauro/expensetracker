@@ -67,7 +67,7 @@ function Dashboard() {
                             </div>
                         </div>
                         <div className="col">
-                            <div className="fw-semibold">Compare</div>
+                            <div className="fw-semibold">Averages</div>
                             <div>Avg Income:<span className="text-success">{data2.map((dataObj, index) => {return (dataObj.total.toFixed(2))})}</span></div>
                             <div>Avg Expense:<span className="text-danger" style={{width:"5px"}}>{data3.map((dataObj, index) => {return (dataObj.total.toFixed(2))})}</span></div>
                         </div>

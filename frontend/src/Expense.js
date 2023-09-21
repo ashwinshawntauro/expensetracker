@@ -15,12 +15,13 @@ function Expense() {
 
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
+  const [cat, GetCat] = useState([]);
 
   const [type,setType] =  useState([]);
   const [value,setAmount] = useState([]);
   const [date,setDate] = useState([]);
   const [category,setCategory] = useState([]);
-
+  const [note,setNote] = useState([]);
 
   const fetchInfo = () => {
     return fetch(url)
@@ -32,35 +33,62 @@ function Expense() {
       .then((res) => res.json())
       .then((d) => setData2(d))
   }
+  const fetchCat= () =>{
+    return fetch("http://localhost:4000/api/category")
+    .then((res)=> res.json())
+    .then((d)=> GetCat(d))
+  }
 
   useEffect(() => {
     fetchInfo();
     fetchSort();
+    fetchCat();
   }, []);
-
-  function useReload(){
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
-  }
 
   const Submit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:4000/api/post", {type,value,date,category})
-    .then(
-      document.getElementById('form-status-sucess').classList.remove("d-none"),
-    )
-    .catch(err=>console.log(err))
-    .finally(
-      useReload()
-    )
+    let isError = false;
+    axios.post("http://localhost:4000/api/post", {type,value,date,category,note})
+    .then(() => {
+      document.getElementById('form-status-sucess').classList.remove("d-none");
+    })
+    .catch(err => {
+      console.log(err);
+      document.getElementById('form-status-failure').classList.remove("d-none");
+      document.getElementById('form-status-failure-text').innerHTML = err.message;
+      isError = true;
+    })
+    .finally(() => {
+      if (!isError) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    });
     document.getElementById('form').classList.add("d-none");
-    // console.log({type,value,date,category})
   }
+  
+  
+
+  function handleDelete(id) {
+    // Add your delete logic here
+    axios.delete(`http://localhost:4000/api/remove/${id}`)
+    .then(response => {
+      document.getElementById('alert').classList.remove("d-none");
+      window.location.reload();  // Refresh the page here
+    })
+    .catch(error => {
+      console.error("There was an error!", error);
+    });
+  }
+
 
   return (
     <div>
       <div className="m-3">
+        <div class="alert alert-danger d-none text-center" id='alert' role="alert">
+        <i class="bi bi-exclamation-diamond-fill px-2"></i>Transaction was deleted.
+        </div>
         <h4 className="text-tertiary d-flex justify-content-between fw-semibold">Transactions <Fab className='bg-backdrop text-primary d-flex' aria-label="add" size="small" title="Add Transaction">
           <i className="bi bi-plus-circle fs-4 m-auto" onClick={handleShow}></i>
         </Fab></h4>
@@ -68,11 +96,12 @@ function Expense() {
         {data.map((dataObj, index) => {
           return (
               <div className='border border-top-0 border-start-0 border-end-0 border-2 border-secondary'>
-                <div className='text-backdrop fs-5'>{dataObj.date}</div>
+                <div className='text-backdrop fs-5 d-flex justify-content-between'>{dataObj.date}<i class="bi bi-trash-fill" onClick={() => handleDelete(dataObj._id)}></i></div>
                 <div className="d-flex flex-row justify-content-between trans py-2">
                     <img alt="icon" className="border border-2 rounded icon-bg" src={`${dataObj.type=="income"?"https://img.icons8.com/?size=512&id=37784&format=png":"https://img.icons8.com/?size=512&id=37783&format=png"}`}></img>
-                    <div>
-                        <div className="fw-semibold fs-5" style={{textTransform:"capitalize"}}>{dataObj.category}</div>
+                    <div className='d-flex flex-column text-center'>
+                        <div className="fw-semibold fs-5 text-backdrop" style={{textTransform:"capitalize"}}>{dataObj.category}</div>
+                        <small className='text-center fs-6 text-tertiary'>{dataObj.note}</small>
                     </div>
                     <div className={`fw-semibold fs-5 ${dataObj.type =="income" ? "text-success" :"text-danger"}`}>{dataObj.value}</div>
                 </div>
@@ -93,7 +122,7 @@ function Expense() {
             </div>
             <div id='form-status-failure' className='d-none'>
               <div className='d-flex flex-row justify-content-center'>
-              <i className="bi bi-exclamation-circle-fill px-2"></i>Sorry could not add
+              <i className="bi bi-exclamation-circle-fill px-2"></i><p id='form-status-failure-text'></p>
               </div>
             </div>
             <Form onSubmit={Submit} id='form'>
@@ -124,19 +153,20 @@ function Expense() {
               <br></br>
               <Form.Label className='text-backdrop'>Enter the Date</Form.Label>
               <InputGroup>
-                {/* <Form.Control name="date" placeholder='2023-05-03' onChange={(e)=>setDate(e.target.value)}/> */}
                 <input type='date' onChange={(e)=>setDate(e.target.value)} className='form-control w-100'></input>
               </InputGroup>
               <br></br>
               <Form.Label className='text-backdrop'>Choose Category</Form.Label>
               <Form.Select name="category" onChange={(e)=>setCategory(e.target.value)}>
-                <option value="Salary">Salary</option>
-                <option value="Food">Food</option>
-                <option value="Shopping">Shopping</option>
-                <option value='Bills'>Bills</option>
-                <option value='Transport'>Transport</option>
-                <option value='Gym'>Gym</option>
+                <option>Select Category</option>
+              {cat.map((dataObj, index) => {
+              return (
+                <option value={dataObj.category}>{dataObj.category}</option>
+              )})}
               </Form.Select>
+              <br></br>
+              <Form.Label className='text-backdrop'>Note</Form.Label>
+              <Form.Control name="note" defaultValue="" onChange={(e)=>setNote(e.target.value)}/>
               <Button className='bg-backdrop text-primary mt-4 mx-auto w-100' type='submit'>
                 Submit
               </Button>
